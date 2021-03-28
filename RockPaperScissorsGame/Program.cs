@@ -44,13 +44,15 @@ namespace RockPaperScissorsGame
 
             PlayGameRequest playGameRequest = new PlayGameRequest
             {
-                  GameName = gameName,
-                  PlayerName = firstPlayerName
+                GameName = gameName,
+                PlayerName = firstPlayerName
             };
             var gameResponse = gameService.StartGame(playGameRequest);
             if (gameResponse.IsSuccessful)
             {
-                
+                GameStatusRequest gameStatusRequest = new GameStatusRequest
+                { GameId = createResponse.GameId };
+                gameService.CheckGameStatus(gameStatusRequest);
             }
         }
     }

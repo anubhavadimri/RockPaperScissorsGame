@@ -55,7 +55,7 @@ namespace RockPaperScissorsGame
             if (joiner2response.IsSuccessful)
                 Console.WriteLine(secondPlayerName + " joined game.");
 
-            Console.WriteLine("Hi " + firstPlayerName + " ----- Please choose any option from 0 to 3 ----");
+            Console.WriteLine("Hi " + firstPlayerName + " ----- Please choose any option from 1 to 3 ----");
             int input = Convert.ToInt32(Console.ReadLine());
 
 
@@ -68,7 +68,7 @@ namespace RockPaperScissorsGame
             Console.WriteLine(firstPlayerName + " Move.");
             var gameResponse = gameService.StartGame(playGameRequest);
 
-            Console.WriteLine("Hi " + secondPlayerName + " ----- Please choose any option from 0 to 3 ----");
+            Console.WriteLine("Hi " + secondPlayerName + " ----- Please choose any option from 1 to 3 ----");
             int secondInput = Convert.ToInt32(Console.ReadLine());
             PlayGameRequest secondGameRequest = new PlayGameRequest
             {
@@ -83,22 +83,30 @@ namespace RockPaperScissorsGame
             //Generating Result
             if (gameResponse.IsSuccessful && secondGameResponse.IsSuccessful)
             {
+                Console.WriteLine("Game Completed. Generating Result ");
                 GameStatusRequest gameStatusRequest = new GameStatusRequest
                 { GameId = createResponse.GameId };
                 var result = gameService.CheckGameStatus(gameStatusRequest);
                 if (result.IsSuccessful)
-                { 
-                    Console.WriteLine("Game Completed. ");
-                    if (result.Status == Enums.GameStatus.PlayerOneWon) {
+                {
+
+                    if (result.Status == Enums.GameStatus.PlayerOneWon)
+                    {
                         Console.WriteLine("Result Status . " + firstPlayerName + " Won");
                     }
-                    if (result.Status == Enums.GameStatus.PlayerTwoWon) {
+                    if (result.Status == Enums.GameStatus.PlayerTwoWon)
+                    {
                         Console.WriteLine("Result Status . " + secondPlayerName + " Won");
                     }
-                    else {
+                    else
+                    {
                         Console.WriteLine("Result Status . " + result.Status);
                     }
                 }
+            }
+            else
+            {
+                Console.WriteLine("Invalid Entry.");
             }
             Console.WriteLine("Enter any key to exit.");
             Console.WriteLine("--------------------------------------------");

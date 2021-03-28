@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.271
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RockPaperScissorsGame", "RockPaperScissorsGame\RockPaperScissorsGame.csproj", "{1EA880DC-6BE7-45ED-AD5A-26FB65D65D78}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RockPaperScissorsGame", "RockPaperScissorsGame", "{B165A205-4238-4B91-88A5-CA857AC4759F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{DFC4860B-33CB-42A8-A95F-9F50FA19450E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RockPaperScissorsGame.Tests", "XUnitTestProject1\RockPaperScissorsGame.Tests.csproj", "{4EA136BF-1D65-44E7-A9DE-1D8BD87DC2C6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1EA880DC-6BE7-45ED-AD5A-26FB65D65D78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EA880DC-6BE7-45ED-AD5A-26FB65D65D78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EA880DC-6BE7-45ED-AD5A-26FB65D65D78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EA880DC-6BE7-45ED-AD5A-26FB65D65D78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EA136BF-1D65-44E7-A9DE-1D8BD87DC2C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EA136BF-1D65-44E7-A9DE-1D8BD87DC2C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EA136BF-1D65-44E7-A9DE-1D8BD87DC2C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EA136BF-1D65-44E7-A9DE-1D8BD87DC2C6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1EA880DC-6BE7-45ED-AD5A-26FB65D65D78} = {B165A205-4238-4B91-88A5-CA857AC4759F}
+		{4EA136BF-1D65-44E7-A9DE-1D8BD87DC2C6} = {DFC4860B-33CB-42A8-A95F-9F50FA19450E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DB5C9571-1D39-41F1-82EA-725993D87BA9}
+	EndGlobalSection
+EndGlobal

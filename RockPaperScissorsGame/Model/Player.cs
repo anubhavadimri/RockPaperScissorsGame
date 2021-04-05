@@ -9,6 +9,6 @@ namespace RockPaperScissorsGame.Model
 
         public string Name { get; set; }
 
-        public Move Move { get; set; }
+        public MoveType Move { get; set; }
     }
 }

@@ -1,10 +1,10 @@
 ﻿namespace RockPaperScissorsGame.Enums
 {
-    public enum Move
+    public enum MoveType
     {
         Empty,
+        Rock,
         Paper,
-        Scissors,
-        Rock
+        Scissors
     }
 }

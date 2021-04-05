@@ -7,8 +7,6 @@ namespace RockPaperScissorsGame.Model
     {
         public Guid Id { get; set; }
 
-        public string Name { get; set; }
-
         public Player FirstPlayer { get; set; }
 
         public Player SecondPlayer { get; set; }
@@ -16,7 +14,6 @@ namespace RockPaperScissorsGame.Model
         public GameStatus Status { get; set; }
 
         public bool IsFinished { get; set; }
-
         public bool IsFull { get; set; }
     }
 }

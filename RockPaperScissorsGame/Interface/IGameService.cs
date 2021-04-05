@@ -5,11 +5,11 @@ namespace RockPaperScissorsGame.Interface
 {
     public interface IGameService
     {
-        CreateGameResponse CreateGame(CreateGameRequest request);
+        CreateGameResponse CreateGameProfile();
 
-        JoinGameResponse JoinGame(JoinGameRequest request);
+        JoinGameResponse JoinTeam(JoinTeam request);
 
-        PlayGameResponse StartGame(PlayGameRequest request);
+        PlayGameResponse StartMove(PlayGameRequest request);
 
         GameStatusResponse CheckGameStatus(GameStatusRequest request);
     }

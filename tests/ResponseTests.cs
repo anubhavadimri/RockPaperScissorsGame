@@ -73,15 +73,13 @@ namespace RockPaperScissorsGame.Tests
             var createGameResponse = new CreateGameResponse
             {
                 GameId = this.gameGuid,
-                IsSuccessful = this.isSuccessful,
-                Error = this.errorOk
+                IsSuccessful = this.isSuccessful
             };
 
             // Act
             // Assert
             Assert.Equal(this.gameGuid, createGameResponse.GameId);
             Assert.Equal(this.isSuccessful, createGameResponse.IsSuccessful);
-            Assert.Equal(this.errorOk, createGameResponse.Error);
         }
 
         [Fact]

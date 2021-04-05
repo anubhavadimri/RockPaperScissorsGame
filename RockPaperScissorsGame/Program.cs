@@ -8,108 +8,79 @@ namespace RockPaperScissorsGame
     {
         static void Main(string[] args)
         {
-            string gameName = string.Empty;
-            string firstPlayerName = string.Empty;
-            string secondPlayerName = string.Empty;
+            Console.WriteLine("Welcome to Rock, Paper, Scissors, Shoot Game!");
+            Console.WriteLine("Please do the players registration to play the game.");
 
-            Console.Clear();
-            Console.WriteLine("Please Enter Game Name : ");
-            gameName = Console.ReadLine();
-            Console.WriteLine("Please Enter First Player Name : ");
-            firstPlayerName = Console.ReadLine();
-            Console.WriteLine("Please Enter Second Player Name : ");
-            secondPlayerName = Console.ReadLine();
+            Console.WriteLine("PLayer 1, what is your name? : ");
+            var player1Name = Console.ReadLine();
+            Console.WriteLine("PLayer 2, what is your name? : ");
+            var player2Name = Console.ReadLine();
 
             GameService gameService = new GameService();
-            CreateGameRequest createGameRequest = new CreateGameRequest
+            var gameProfile = gameService.CreateGameProfile(); //Create Game Profile
+
+            // Registration of 1nd player in Team
+            JoinTeam player1 = new JoinTeam
             {
-                GameName = gameName
-            };
-            var createResponse = gameService.CreateGame(createGameRequest);
-            if (createResponse.IsSuccessful)
-                Console.WriteLine("Game successfully created.");
-            JoinGameRequest firstPlayerRequest = new JoinGameRequest
-            {
-                GameName = gameName,
                 Player = new Model.Player
                 {
                     Id = new Guid(),
-                    Name = firstPlayerName
+                    Name = player1Name
                 }
             };
+            gameService.JoinTeam(player1);
 
-            var joiner1response = gameService.JoinGame(firstPlayerRequest);
-            if (joiner1response.IsSuccessful)
-                Console.WriteLine(firstPlayerName + " joined game.");
-            JoinGameRequest secondPlayerRequest = new JoinGameRequest
+            // Registration of 2nd player in Team
+            JoinTeam player2 = new JoinTeam
             {
-                GameName = gameName,
                 Player = new Model.Player
                 {
                     Id = new Guid(),
-                    Name = secondPlayerName
+                    Name = player2Name
                 }
             };
+            gameService.JoinTeam(player2);
 
-            var joiner2response = gameService.JoinGame(secondPlayerRequest);
-            if (joiner2response.IsSuccessful)
-                Console.WriteLine(secondPlayerName + " joined game.");
 
-            Console.WriteLine("Hi " + firstPlayerName + " ----- Please choose any option from 1 to 3 ----");
+            Console.WriteLine("Welcome {0} and {1}", player1Name, player2Name);
+            Console.WriteLine("{0}, Please pick Rock, Paper, or Scissors. Press 1 for Rock, 2 for Paper, 3 for Scissors", player1Name);
             int input = Convert.ToInt32(Console.ReadLine());
-
 
             PlayGameRequest playGameRequest = new PlayGameRequest
             {
-                GameName = gameName,
-                PlayerName = firstPlayerName,
-                NextMove = (Enums.Move)input
+                PlayerName = player1Name,
+                NextMove = (Enums.MoveType)input
             };
-            Console.WriteLine(firstPlayerName + " Move.");
-            var gameResponse = gameService.StartGame(playGameRequest);
+            var gameResponse = gameService.StartMove(playGameRequest);
 
-            Console.WriteLine("Hi " + secondPlayerName + " ----- Please choose any option from 1 to 3 ----");
+            Console.WriteLine("{0}, Please pick Rock, Paper, or Scissors. Press 1 for Rock, 2 for Paper, 3 for Scissors", player2Name);
+
             int secondInput = Convert.ToInt32(Console.ReadLine());
             PlayGameRequest secondGameRequest = new PlayGameRequest
             {
-                GameName = gameName,
-                PlayerName = secondPlayerName,
-                NextMove = (Enums.Move)secondInput
+                PlayerName = player2Name,
+                NextMove = (Enums.MoveType)secondInput
             };
+            var secondGameResponse = gameService.StartMove(secondGameRequest);
 
-            Console.WriteLine(secondPlayerName + " Move.");
-            var secondGameResponse = gameService.StartGame(secondGameRequest);
-
-            //Generating Result
+            //Moves done and calculate Result
             if (gameResponse.IsSuccessful && secondGameResponse.IsSuccessful)
             {
-                Console.WriteLine("Game Completed. Generating Result ");
                 GameStatusRequest gameStatusRequest = new GameStatusRequest
-                { GameId = createResponse.GameId };
+                { GameId = gameProfile.GameId };
                 var result = gameService.CheckGameStatus(gameStatusRequest);
                 if (result.IsSuccessful)
                 {
-
+                    Console.WriteLine("==================================");
                     if (result.Status == Enums.GameStatus.PlayerOneWon)
-                    {
-                        Console.WriteLine("Result Status . " + firstPlayerName + " Won");
-                    }
-                    if (result.Status == Enums.GameStatus.PlayerTwoWon)
-                    {
-                        Console.WriteLine("Result Status . " + secondPlayerName + " Won");
-                    }
+                        Console.WriteLine("Player 1 : " + player1Name + " is the winner");
+                    else if (result.Status == Enums.GameStatus.PlayerTwoWon)
+                        Console.WriteLine("Player 2 : " + player2Name + " is the winner");
                     else
-                    {
                         Console.WriteLine("Result Status . " + result.Status);
-                    }
+                    Console.WriteLine("==================================");
                 }
             }
-            else
-            {
-                Console.WriteLine("Invalid Entry.");
-            }
-            Console.WriteLine("Enter any key to exit.");
-            Console.WriteLine("--------------------------------------------");
         }
     }
 }

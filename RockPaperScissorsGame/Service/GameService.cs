@@ -21,60 +21,25 @@ namespace RockPaperScissorsGame.Service
 
         /// <summary>
         /// Create a new game
-        /// </summary>
-        /// <param name="request">Create game request</param>
+        /// </summary>        
         /// <returns>Create Game Response</returns>
-        public CreateGameResponse CreateGame(CreateGameRequest request)
+        public CreateGameResponse CreateGameProfile()
         {
-            // Validate request, you will never know
-            if (string.IsNullOrEmpty(request?.GameName))
-            {
-                return new CreateGameResponse
-                {
-                    GameId = Guid.Empty,
-                    Error = new ResponseError
-                    {
-                        ErrorCode = HttpStatusCode.BadRequest,
-                        Description = HttpStatusCode.BadRequest.ToString()
-                    }
-                };
-            }
-
-            // Validate Game name is unique
-            var isDuplicate = this.games.Exists(item => item.Name == request.GameName);
-            if (isDuplicate)
-            {
-                return new CreateGameResponse
-                {
-                    GameId = Guid.Empty,
-                    Error = new ResponseError
-                    {
-                        ErrorCode = HttpStatusCode.BadRequest,
-                        Description = HttpStatusCode.BadRequest.ToString()
-                    }
-                };
-            }
-
             // Just create now
             var game = new Game
             {
                 Id = Guid.NewGuid(),
-                Name = request.GameName,
                 Status = GameStatus.Created
             };
             this.games.Add(game);
 
-            return new CreateGameResponse
-            {
-                GameId = game.Id,
-                IsSuccessful = true
-            };
+            return new CreateGameResponse { GameId = game.Id };
         }
 
-        public JoinGameResponse JoinGame(JoinGameRequest request)
+        public JoinGameResponse JoinTeam(JoinTeam request)
         {
             // Validate request, you will never know again
-            if (string.IsNullOrEmpty(request?.GameName) || string.IsNullOrEmpty(request?.Player?.Name))
+            if (string.IsNullOrEmpty(request?.Player?.Name))
             {
                 return new JoinGameResponse
                 {
@@ -88,7 +53,7 @@ namespace RockPaperScissorsGame.Service
             }
 
             // Validate Game exists
-            var game = this.games.FirstOrDefault(item => item.Name == request.GameName);
+            var game = this.games.FirstOrDefault();
             if (game == null)
             {
                 return new JoinGameResponse
@@ -150,11 +115,10 @@ namespace RockPaperScissorsGame.Service
             };
         }
 
-        public PlayGameResponse StartGame(PlayGameRequest request)
+        public PlayGameResponse StartMove(PlayGameRequest request)
         {
             // Validate request, you will never know again and again
-            if (string.IsNullOrEmpty(request?.GameName) || string.IsNullOrEmpty(request?.PlayerName) ||
-                request?.NextMove == Move.Empty)
+            if (string.IsNullOrEmpty(request?.PlayerName) || request?.NextMove == MoveType.Empty)
             {
                 return new PlayGameResponse
                 {
@@ -168,7 +132,7 @@ namespace RockPaperScissorsGame.Service
             }
 
             // Validate Game exists
-            var game = this.games.FirstOrDefault(item => item.Name == request.GameName);
+            var game = this.games.FirstOrDefault();
             if (game == null)
             {
                 return new PlayGameResponse
@@ -286,42 +250,29 @@ namespace RockPaperScissorsGame.Service
             }
 
             // Validate Game exists
-            var game = this.games.FirstOrDefault(item => item.Id == request.GameId);
-            if (game == null)
-            {
-                return new GameStatusResponse
-                {
-                    IsSuccessful = false,
-                    Error = new ResponseError
-                    {
-                        ErrorCode = HttpStatusCode.BadRequest,
-                        Description = HttpStatusCode.BadRequest.ToString()
-                    }
-                };
-            }
-
+            var game = this.games.FirstOrDefault(item => item.Id == request.GameId); 
             return new GameStatusResponse
             {
                 IsSuccessful = true,
-                Status = game.IsFinished ? Battle(game.FirstPlayer.Move, game.SecondPlayer.Move) : game.Status
+                Status = game.IsFinished ? CheckResult(game.FirstPlayer.Move, game.SecondPlayer.Move) : game.Status
             };
         }
 
-        private static GameStatus Battle(Move firstPlayerMove, Move secondPlayerMove)
+        private static GameStatus CheckResult(MoveType firstPlayerMove, MoveType secondPlayerMove)
         {
             switch (firstPlayerMove)
             {
-                case Move.Paper when secondPlayerMove == Move.Rock:
+                case MoveType.Paper when secondPlayerMove == MoveType.Rock:
                     return GameStatus.PlayerOneWon;
-                case Move.Paper when secondPlayerMove == Move.Scissors:
+                case MoveType.Paper when secondPlayerMove == MoveType.Scissors:
                     return GameStatus.PlayerTwoWon;
-                case Move.Scissors when secondPlayerMove == Move.Paper:
+                case MoveType.Scissors when secondPlayerMove == MoveType.Paper:
                     return GameStatus.PlayerOneWon;
-                case Move.Scissors when secondPlayerMove == Move.Rock:
+                case MoveType.Scissors when secondPlayerMove == MoveType.Rock:
                     return GameStatus.PlayerTwoWon;
-                case Move.Rock when secondPlayerMove == Move.Paper:
+                case MoveType.Rock when secondPlayerMove == MoveType.Paper:
                     return GameStatus.PlayerTwoWon;
-                case Move.Rock when secondPlayerMove == Move.Scissors:
+                case MoveType.Rock when secondPlayerMove == MoveType.Scissors:
                     return GameStatus.PlayerOneWon;
                 default:
                     return GameStatus.Tie;

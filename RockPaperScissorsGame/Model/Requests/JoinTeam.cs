@@ -1,9 +1,8 @@
 ﻿namespace RockPaperScissorsGame.Model.Requests
 {
-    public class JoinGameRequest
+    public class JoinTeam
     {
         public Player Player { get; set; }
-
-        public string GameName { get; set; }
+        
     }
 }

@@ -8,13 +8,11 @@ namespace RockPaperScissorsGame
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to Rock, Paper, Scissors, Shoot Game!");
-            Console.WriteLine("Please do the players registration to play the game.");
-
-            Console.WriteLine("PLayer 1, what is your name? : ");
+            Console.WriteLine("Welcome to Rock, Paper, Scissors Game!");
+            Console.WriteLine("You are playing this game with Computer.");
+            Console.WriteLine("PLayer , what is your name? : ");
             var player1Name = Console.ReadLine();
-            Console.WriteLine("PLayer 2, what is your name? : ");
-            var player2Name = Console.ReadLine();
+            var player2Name = "Computer";
 
             GameService gameService = new GameService();
             var gameProfile = gameService.CreateGameProfile(); //Create Game Profile
@@ -53,9 +51,8 @@ namespace RockPaperScissorsGame
             };
             var gameResponse = gameService.StartMove(playGameRequest);
 
-            Console.WriteLine("{0}, Please pick Rock, Paper, or Scissors. Press 1 for Rock, 2 for Paper, 3 for Scissors", player2Name);
-
-            int secondInput = Convert.ToInt32(Console.ReadLine());
+            Random random = new Random();            
+            int secondInput = random.Next(1, 3);
             PlayGameRequest secondGameRequest = new PlayGameRequest
             {
                 PlayerName = player2Name,
@@ -73,14 +70,15 @@ namespace RockPaperScissorsGame
                 {
                     Console.WriteLine("==================================");
                     if (result.Status == Enums.GameStatus.PlayerOneWon)
-                        Console.WriteLine("Player 1 : " + player1Name + " is the winner");
+                        Console.WriteLine("Player : " + player1Name + " is the winner");
                     else if (result.Status == Enums.GameStatus.PlayerTwoWon)
-                        Console.WriteLine("Player 2 : " + player2Name + " is the winner");
+                        Console.WriteLine("Player : " + player2Name + " is the winner");
                     else
-                        Console.WriteLine("Result Status . " + result.Status);
-                    Console.WriteLine("==================================");
+                        Console.WriteLine("Player : " + result.Status);
+                    
                 }
             }
+            Console.WriteLine("Press any key to exit.");
         }
     }
 }

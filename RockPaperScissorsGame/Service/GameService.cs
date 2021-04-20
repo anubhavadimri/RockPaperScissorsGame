@@ -263,7 +263,7 @@ namespace RockPaperScissorsGame.Service
             switch (firstPlayerMove)
             {
                 case MoveType.Paper when secondPlayerMove == MoveType.Rock:
-                    return GameStatus.PlayerOneWon;
+                    return GameStatus.PlayerTwoWon;
                 case MoveType.Paper when secondPlayerMove == MoveType.Scissors:
                     return GameStatus.PlayerTwoWon;
                 case MoveType.Scissors when secondPlayerMove == MoveType.Paper:
@@ -271,7 +271,7 @@ namespace RockPaperScissorsGame.Service
                 case MoveType.Scissors when secondPlayerMove == MoveType.Rock:
                     return GameStatus.PlayerTwoWon;
                 case MoveType.Rock when secondPlayerMove == MoveType.Paper:
-                    return GameStatus.PlayerTwoWon;
+                    return GameStatus.PlayerOneWon;
                 case MoveType.Rock when secondPlayerMove == MoveType.Scissors:
                     return GameStatus.PlayerOneWon;
                 default:
